@@ -1,0 +1,1 @@
+VALID_USER = {"email": "1test12345@email.com", "password": "1test12345"}
