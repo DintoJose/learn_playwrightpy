@@ -8,7 +8,8 @@ class AELoginPage:
         self.login_password = page.get_by_role("textbox", name="Password")
         self.login_button = page.get_by_role("button", name="Login")
 
-    def login(self, email: str, password: str):
+    # username passed in below method is for assertion purposes in test
+    def login(self, email: str, password: str, username: str):
         self.login_email.fill(email)
         self.login_password.fill(password)
         self.login_button.click()
