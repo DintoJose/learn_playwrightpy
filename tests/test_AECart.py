@@ -7,8 +7,8 @@ def test_cart(page: Page, ae_cart: AECartPage,
 ae_page: AEHomePage,
 ae_products: AEProductsPage):
     ae_page.load()
-    ae_products.addtocart(0)
-    ae_products.view_cart_button.click()
+    ae_page.addtocart_home(0)
+    ae_page.go_to_cart_home()
     expect(page).to_have_title("Automation Exercise - Checkout")
     expect(ae_cart.checkout_button).to_be_visible()
     # expect(ae_cart.order_details).to_be_visible()

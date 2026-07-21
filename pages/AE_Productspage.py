@@ -14,3 +14,6 @@ class AEProductsPage:
 
     def addtocart(self, number: int):
         self.add_to_cart_button.nth(number).click()
+
+    def go_to_cart(self):
+        self.view_cart_button.click()
