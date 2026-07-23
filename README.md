@@ -4,6 +4,8 @@ A test automation portfolio project built with **Playwright + Python**, demonstr
 
 Built as part of a self-directed transition from manual testing to test automation.
 
+**NOTE: CI runs are blocked by Cloudflare bot protection on automationexercise.com. Tests pass fully in local execution.**
+
 ---
 
 ## 🧪 What This Project Tests
