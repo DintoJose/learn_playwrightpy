@@ -27,3 +27,8 @@ jobs:
       with:
         name: playwright-traces
         path: test-results/
+    - uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
+      with:
+        name: html-report
+        path: reports/reports.html
