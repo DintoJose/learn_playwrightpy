@@ -1,6 +1,7 @@
 import pytest
 from playwright.sync_api import Page
 
+from pages.AE_Checkoutpage import AECheckoutPage
 from pages.AE_Homepage import AEHomePage
 from pages.AE_Productspage import AEProductsPage
 from pages.AE_Loginpage import AELoginPage
@@ -21,3 +22,7 @@ def ae_login(page: Page):
 @pytest.fixture
 def ae_cart(page: Page):
     return AECartPage(page)
+
+@pytest.fixture
+def ae_checkout(page: Page):
+    return AECheckoutPage(page)
