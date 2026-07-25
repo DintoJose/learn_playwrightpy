@@ -7,8 +7,7 @@ from pages.AE_Loginpage import AELoginPage
 from pages.AE_Checkoutpage import AECheckoutPage
 
 def test_cart_remove(page: Page, ae_cart: AECartPage,
-ae_page: AEHomePage,
-ae_products: AEProductsPage):
+ae_page: AEHomePage):
     ae_page.load()
     ae_page.addtocart_home(0)
     ae_page.go_to_cart_home()
@@ -19,8 +18,7 @@ ae_products: AEProductsPage):
     expect(ae_cart.back_to_products).to_be_visible()
 
 def test_checkout_without_login(page: Page, ae_cart: AECartPage,
-ae_page: AEHomePage,
-ae_products: AEProductsPage):
+ae_page: AEHomePage):
     ae_page.load()
     ae_page.addtocart_home(0)
     ae_page.go_to_cart_home()
@@ -38,6 +36,7 @@ def test_checkout_after_login(page: Page, ae_login: AELoginPage, ae_page: AEHome
     ae_cart.checkout()
     expect(ae_checkout.order_button).to_be_visible()
     ae_checkout.place_order()
+    ae_checkout.handle_ad_popup()
     expect(page).to_have_title("Automation Exercise - Payment")
 
 

@@ -8,6 +8,7 @@ class AEHomePage:
         self.login_page = page.get_by_role("link", name=" Signup / Login")
         self.add_to_cart_button = self.page.get_by_text("Add to cart")
         self.view_cart_button = self.page.get_by_role("link", name="View Cart")
+        self.contact_button = self.page.get_by_role("link", name=" Contact us")
 
     def load(self):
         self.page.goto("https://automationexercise.com")
@@ -23,4 +24,7 @@ class AEHomePage:
 
     def go_to_cart_home(self):
         self.view_cart_button.click()
+
+    def go_to_contact(self):
+        self.contact_button.click()
 

@@ -7,3 +7,6 @@ class AECheckoutPage:
 
     def place_order(self):
         self.order_button.click()
+
+    def handle_ad_popup(self):
+        self.page.on("popup", lambda popup: popup.close())
