@@ -30,10 +30,12 @@ class AEContactPage:
     def submit_form_and_accept_dialog(self):
         self.page.on("dialog", lambda dialog: dialog.accept())
         self.submit_button.click()
+        self.page.wait_for_load_state("networkidle")
     
     def submit_form_and_reject_dialog(self):
         self.page.on("dialog", lambda dialog: dialog.dismiss())
         self.submit_button.click()
+        self.page.wait_for_load_state("networkidle")
 
     def fill_contact_form(self, name: str, email: str, subject: str, message: str):
         self.enter_name(name)

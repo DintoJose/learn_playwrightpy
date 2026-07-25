@@ -20,6 +20,7 @@ class AEHomePage:
         self.login_page.click()
 
     def addtocart_home(self, number: int):
+        self.page.wait_for_load_state("networkidle")
         self.add_to_cart_button.nth(number).click()
 
     def go_to_cart_home(self):

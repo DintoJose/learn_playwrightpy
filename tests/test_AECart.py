@@ -1,4 +1,5 @@
-from playwright.sync_api import Page, expect
+from playwright.sync_api import Page, expect, Route
+import pytest
 
 from pages.AE_Homepage import AEHomePage
 from pages.AE_Productspage import AEProductsPage
@@ -36,7 +37,6 @@ def test_checkout_after_login(page: Page, ae_login: AELoginPage, ae_page: AEHome
     ae_cart.checkout()
     expect(ae_checkout.order_button).to_be_visible()
     ae_checkout.place_order()
-    ae_checkout.handle_ad_popup()
     expect(page).to_have_title("Automation Exercise - Payment")
 
 

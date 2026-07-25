@@ -1,5 +1,4 @@
 import pytest
-import sys
 from playwright.sync_api import Page
 
 from pages.AE_Checkoutpage import AECheckoutPage
@@ -42,3 +41,17 @@ def pytest_configure(config):
 def skip_if_headless(request):
     if request.node.get_closest_marker("headed_only")and not request.config.getoption("--headed", default = False):
         pytest.skip("Skipping test in headless mode - Cloudflare protection")
+
+@pytest.fixture
+def page(page: Page):
+    def handle_route(route):
+        if any(domain in route.request.url for domain in [
+            "googleads", 
+            "doubleclick.net", 
+            "adsbygoogle"
+            ]):
+            route.abort()
+        else:
+            route.continue_()
+    page.route("**/*", handle_route)
+    return page
