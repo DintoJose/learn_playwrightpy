@@ -6,4 +6,8 @@ __pycache__/
 *.pyc
 reports/
 skills-lock.json
-.agents/
+package.json
+package-lock.json
+node_modules/
+.vscode/settings.json
+.playwright-mcp/
