@@ -1,6 +1,6 @@
 # learn_playwrightpy
 
-A test automation portfolio project built with **Playwright + Python**, demonstrating end-to-end UI testing using the Page Object Model (POM) design pattern, AI-assisted test generation, and CI/CD integration via GitHub Actions.
+A test automation portfolio project built with **Playwright + Python**, demonstrating end-to-end UI testing using the Page Object Model (POM) design pattern, UI+API hybrid testing, AI-assisted test generation, and CI/CD integration via GitHub Actions.
 
 Built as part of a self-directed transition from manual testing to test automation.
 
@@ -18,22 +18,24 @@ The project automates test scenarios on [Automation Exercise](https://automation
 - End-to-end checkout flow (guest and authenticated)
 - Contact form submission with file upload and browser dialog handling
 - Positive and negative checkout scenarios
+- UI + API hybrid testing — account creation, verification, and deletion across both layers
 
 ---
 
 ## 🛠️ Tech Stack
-
+ 
 | Tool | Purpose |
 |---|---|
-| [Playwright](https://playwright.dev/python/) | Browser automation |
+| [Playwright](https://playwright.dev/python/) | Browser automation + API testing |
 | [pytest](https://docs.pytest.org/) | Test framework |
 | [pytest-playwright](https://pypi.org/project/pytest-playwright/) | Playwright pytest integration |
 | [pytest-html](https://pypi.org/project/pytest-html/) | HTML test reports |
-| [GitHub Copilot + Playwright MCP](https://playwright.dev/docs/mcp) | AI-assisted test and locator generation |
+| [allure-pytest](https://pypi.org/project/allure-pytest/) | Allure test reports with step-level breakdown |
 | [pytest-xdist](https://pypi.org/project/pytest-xdist/) | Parallel execution |
-| Python 3.13 | Programming language |
+| [GitHub Copilot + Playwright MCP](https://playwright.dev/docs/mcp) | AI-assisted test and locator generation |
+| Python 3.14 | Programming language |
 | GitHub Actions | CI/CD pipeline |
-
+ 
 ---
 
 ## 📁 Project Structure
@@ -42,20 +44,25 @@ The project automates test scenarios on [Automation Exercise](https://automation
 learn_playwrightpy/
 ├── .github/
 │   └── workflows/
-│       └── playwright.yml      # GitHub Actions CI/CD workflow
-├── pages/                      # Page Object Model classes
+│       └── playwright.yml         # GitHub Actions CI/CD workflow
+├── allure-reports/                # Allure reports
+│   └── index.html                 
+├── pages/                         # Page Object Model classes
 │   ├── __init__.py
-│   ├── AE_Homepage.py          # Homepage actions and locators
-│   ├── AE_Loginpage.py         # Login page actions and locators
-│   ├── AE_Productspage.py      # Products page actions and locators
-│   ├── AE_Cartpage.py          # Cart page actions and locators
-│   ├── AE_Checkoutpage.py      # Checkout page actions and locators
-│   └── AE_Contactpage.py       # Contact form actions and locators
-├── test_data/                  # External test data
+│   ├── AE_Homepage.py             # Homepage actions and locators
+│   ├── AE_Homepage.py             # Homepage actions and locators
+│   ├── AE_Loginpage.py            # Login page actions and locators
+│   ├── AE_Productspage.py         # Products page actions and locators
+│   ├── AE_Cartpage.py             # Cart page actions and locators
+│   ├── AE_Checkoutpage.py         # Checkout page actions and locators
+│   └── AE_Contactpage.py          # Contact form actions and locators
+├── test_data/                     # External test data
 │   ├── __init__.py
-│   ├── test_credentials.py     # Valid and invalid login credentials
-│   └── sample.txt              # Sample file for upload tests
-├── tests/                      # Test files
+│   ├── test_credentials.py        # Valid and invalid login credentials
+│   └── sample.txt                 # Sample file for upload tests
+├── tests/                         # Test files
+|   ├── tests_api/                 # API test files
+|        ├── test_UI_API_hybrid.py
 │   ├── test_AEHome.py
 │   ├── test_AELogin.py
 │   ├── test_AEProducts.py
@@ -110,6 +117,20 @@ Three test scenarios covering the full cart and checkout flow:
 
 > **Note:** This test is marked `@pytest.mark.headed_only` and skipped automatically in headless mode due to Cloudflare protection blocking form submission. Runs fully in headed mode.
 
+### UI + API Hybrid Tests (`tests_api/test_UI_API_hybrid.py`)
+ 
+A 5-step hybrid test covering account lifecycle across both API and UI layers:
+ 
+| Step | Layer | Action |
+|---|---|---|
+| 1 | API | Create account via `POST /api/createAccount` |
+| 2 | API | Verify account exists via `POST /api/verifyLogin` and `GET /api/getUserDetailByEmail` |
+| 3 | UI | Login with API-created account and verify logged-in state |
+| 4 | API | Delete account via `DELETE /api/deleteAccount` |
+| 5 | UI | Attempt login with deleted account — verify login fails |
+ 
+This demonstrates using API for fast data setup and teardown while UI handles user journey verification.
+
 ---
 
 ## ⚙️ Setup and Installation
@@ -119,6 +140,7 @@ Three test scenarios covering the full cart and checkout flow:
 - Python 3.10+
 - Git
 - Node.js 18+ (for Playwright MCP)
+- Java 8+ (required for Allure reports)
 
 ### Steps
 
@@ -168,11 +190,38 @@ Run a specific test file:
 pytest tests/test_AECart.py
 ```
 
-Run with detailed output:
+Run with detailed output(configured in pytest.ini - runs with detailed output by default):
 ```bash
 pytest -v -s
 ```
 
+---
+
+## 📊 Reporting
+ 
+### pytest-html
+ 
+Generated automatically after every run at `reports/reports.html`.
+ 
+### Allure Reports
+ 
+Run tests with Allure results collection:
+```bash
+pytest tests --alluredir allure-results --clean-alluredir
+```
+ 
+View report in browser:
+```bash
+allure serve allure-results
+```
+ 
+Generate single-file HTML report:
+```bash
+allure generate --single-file allure-results --clean -o ./allure-reports
+```
+ 
+Allure reports show step-level breakdowns via `allure.step()` — making it easy to see exactly where a test passed or failed within each logical step.
+ 
 ---
 
 ## 🤖 AI-Assisted Test Generation
@@ -200,6 +249,8 @@ This is an infrastructure constraint, not a code issue — all tests pass in loc
 ## 🧠 Key Concepts Demonstrated
 
 - **Page Object Model (POM)** — 6 page classes separating locators and actions from test logic
+- **UI + API hybrid testing** — API for data setup and teardown, UI for user journey verification
+- **APIRequestContext** — Playwright's built-in API testing client without launching a browser
 - **End-to-end testing** — full user journeys across multiple pages and states
 - **Parametrized testing** — `@pytest.mark.parametrize` for data-driven login scenarios
 - **Pytest fixtures** — shared setup via `conftest.py` with `autouse` and scoped fixtures
@@ -207,6 +258,7 @@ This is an infrastructure constraint, not a code issue — all tests pass in loc
 - **Browser event handling** — `page.on("dialog")` for browser dialogs; `page.on("popup")` for ad suppression
 - **File upload automation** — `set_input_files()` with hidden input pattern
 - **AI-assisted generation** — GitHub Copilot + Playwright MCP for locator and page class generation
+- **Allure reporting** — step-level test breakdowns with `allure.step()`
 - **CI/CD pipeline** — GitHub Actions workflow with dependency caching and artifact upload
 - **Negative testing** — explicit failure scenarios alongside happy path coverage
 
