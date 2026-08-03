@@ -11,3 +11,4 @@ package-lock.json
 node_modules/
 .vscode/settings.json
 .playwright-mcp/
+allure-results/

@@ -1,5 +1,6 @@
 import pytest
-from playwright.sync_api import Page
+from playwright.sync_api import Page, Playwright, APIRequestContext
+from typing import Generator
 
 from pages.AE_Checkoutpage import AECheckoutPage
 from pages.AE_Homepage import AEHomePage
@@ -55,3 +56,11 @@ def page(page: Page):
             route.continue_()
     page.route("**/*", handle_route)
     return page
+
+@pytest.fixture(scope="session")
+def api_request_context(playwright: Playwright) -> Generator[APIRequestContext, None, None]:
+    request_context = playwright.request.new_context(
+        base_url="https://automationexercise.com"
+    )
+    yield request_context
+    request_context.dispose()
