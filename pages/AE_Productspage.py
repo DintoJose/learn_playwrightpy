@@ -7,8 +7,10 @@ class AEProductsPage:
         self.view_product_button = self.page.get_by_role("link", name=" View Product")
         self.add_to_cart_button = self.page.get_by_text("Add to cart")
         self.view_cart_button = self.page.get_by_role("link", name="View Cart")
+        self.search_bar = self.page.get_by_role("textbox", name="Search Product")
+        self.search_bar_button = self.page.locator("#submit_search")
 
-    def viewproduct(self, number):
+    def viewproduct(self, number: int):
         self.view_product_button.nth(4).wait_for()
         self.view_product_button.nth(number).click()
 
@@ -17,3 +19,7 @@ class AEProductsPage:
 
     def go_to_cart(self):
         self.view_cart_button.click()
+
+    def search_product(self, product_input:str):
+        self.search_bar.fill(product_input)
+        self.search_bar_button.click()

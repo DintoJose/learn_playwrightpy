@@ -26,6 +26,7 @@ class AEContactPage:
 
     def upload_file(self, file_path: str):
         self.file_upload.set_input_files(file_path)
+        self.page.wait_for_load_state("networkidle")
 
     def submit_form_and_accept_dialog(self):
         self.page.on("dialog", lambda dialog: dialog.accept())

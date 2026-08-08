@@ -1,3 +1,4 @@
+import allure
 import pytest
 from playwright.sync_api import Page, expect
 from pages.AE_Loginpage import AELoginPage
@@ -6,6 +7,7 @@ from test_data.test_credentials import VALID_USER
 
 
 @pytest.mark.parametrize("creds", VALID_USER)
+@allure.testcase("TC01", "Verify Login Functionality")
 def test_login(page: Page, ae_login: AELoginPage, ae_page: AEHomePage, creds: dict):
     ae_page.load()
     ae_page.clicklogin()

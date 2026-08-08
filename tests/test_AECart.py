@@ -1,3 +1,4 @@
+import allure
 from playwright.sync_api import Page, expect, Route
 import pytest
 
@@ -7,6 +8,8 @@ from pages.AE_Cartpage import AECartPage
 from pages.AE_Loginpage import AELoginPage
 from pages.AE_Checkoutpage import AECheckoutPage
 
+
+@allure.testcase("TC01", "Verify Add to cart and remove from cart")
 def test_cart_remove(page: Page, ae_cart: AECartPage,
 ae_page: AEHomePage):
     ae_page.load()
@@ -18,6 +21,7 @@ ae_page: AEHomePage):
     ae_cart.remove_item(0)
     expect(ae_cart.back_to_products).to_be_visible()
 
+@allure.testcase("TC02", "Verify Checkout without login")
 def test_checkout_without_login(page: Page, ae_cart: AECartPage,
 ae_page: AEHomePage):
     ae_page.load()
@@ -27,6 +31,7 @@ ae_page: AEHomePage):
     ae_cart.checkout()
     expect(ae_cart.register_link).to_be_visible()
 
+@allure.testcase("TC03", "Verify Checkout after login")
 def test_checkout_after_login(page: Page, ae_login: AELoginPage, ae_page: AEHomePage, ae_cart: AECartPage, ae_checkout: AECheckoutPage):
     ae_page.load()
     ae_page.clicklogin()

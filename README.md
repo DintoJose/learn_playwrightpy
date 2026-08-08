@@ -97,6 +97,7 @@ Test data is stored externally in `test_data/test_credentials.py` and passed int
 ### Products Tests (`test_AEProducts.py`)
 
 - Verifies product listing navigation and product detail page load
+- Verifies Search Products functionality
 
 ### Cart Tests (`test_AECart.py`)
 
@@ -258,7 +259,7 @@ This is an infrastructure constraint, not a code issue — all tests pass in loc
 - **Browser event handling** — `page.on("dialog")` for browser dialogs; `page.on("popup")` for ad suppression
 - **File upload automation** — `set_input_files()` with hidden input pattern
 - **AI-assisted generation** — GitHub Copilot + Playwright MCP for locator and page class generation
-- **Allure reporting** — step-level test breakdowns with `allure.step()`
+- **Allure reporting** — step-level test breakdowns with `allure.step()` in UI+API hybrid test and test case level breakdowns with `allure.testcase()` in the UI tests.
 - **CI/CD pipeline** — GitHub Actions workflow with dependency caching and artifact upload
 - **Negative testing** — explicit failure scenarios alongside happy path coverage
 
